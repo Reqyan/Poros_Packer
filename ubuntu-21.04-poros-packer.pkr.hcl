@@ -75,7 +75,7 @@ build {
     ]
   }
   provisioner "shell" {
-    execute_command = "echo 'ubuntu' | {{.Vars}} sudo -S -E bash '{{.Path}}"
+    execute_command = "echo 'ansible' | {{.Vars}} sudo -S -E bash '{{.Path}}"
     script = "nginx.sh"
   }
   post-processor "artifice" {
