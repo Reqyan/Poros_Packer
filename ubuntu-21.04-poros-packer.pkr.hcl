@@ -75,8 +75,8 @@ build {
     ]
   }
   provisioner "shell" {
-    inline = ["apt-get -y update && apt-get install -y","apt-get install nginx -y","systemctl enable --now nginx"
-    ]
+    execute_command = "echo 'ubuntu' | {{.Vars}} sudo -S -E bash '{{.Path}}"
+    script = "nginx.sh"
   }
   post-processor "artifice" {
     files               = ["ubuntu-21.04-poros-packer.vmdk", "ubuntu-21.04-poros-packer.ovf"]
