@@ -9,13 +9,13 @@ packer {
 
 variable "os_username" {
   type      = string
-  default   = "ansible"
+  default   = "vagrant"
   sensitive = true
 }
 
 variable "os_password" {
   type      = string
-  default   = "ansible"
+  default   = "vagrant"
   sensitive = true
 }
 
