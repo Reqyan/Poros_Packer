@@ -23,7 +23,7 @@ locals {
   hashed_os_password = bcrypt("${var.os_password}")
 }
 
-source "virtualbox-iso" "ubuntu-21-04-poros-packer" {
+source "virtualbox-iso" "ubuntu-2104" {
   boot_command = [
     "<esc><esc><esc><esc>e<wait>",
     "<del><del><del><del><del><del><del><del>",
@@ -57,7 +57,7 @@ source "virtualbox-iso" "ubuntu-21-04-poros-packer" {
   iso_url                = "https://releases.ubuntu.com/21.04/ubuntu-21.04-live-server-amd64.iso"
   iso_checksum           = "sha256:e4089c47104375b59951bad6c7b3ee5d9f6d80bfac4597e43a716bb8f5c1f3b0"
   memory                 = 1024
-  output_directory       = "output/ubuntu-2104-poros-packer"
+  output_directory       = "output/ubuntu-2104"
   shutdown_command       = "sudo shutdown -P now"
   ssh_handshake_attempts = "20"
   ssh_pty                = true
@@ -67,26 +67,14 @@ source "virtualbox-iso" "ubuntu-21-04-poros-packer" {
 }
 
 build {
-  sources = ["sources.virtualbox-iso.ubuntu-21-04-poros-packer"]
+  sources = ["sources.virtualbox-iso.ubuntu-2104"]
+
 
   provisioner "shell" {
-    inline = [
-      "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"
-    ]
-  }
-  provisioner "shell" {
-    execute_command = "echo 'ansible' | {{.Vars}} sudo -S -E bash '{{.Path}}"
-    script = "nginx.sh"
-  }
-  post-processor "artifice" {
-    files               = ["ubuntu-21.04-poros-packer.vmdk", "ubuntu-21.04-poros-packer.ovf"]
-    keep_input_artifact = true
+       script = "nginx.sh"
   }
 
   post-processor "vagrant" {
-    include             = ["ubuntu-21.04-poros-packer.vmdk", "ubuntu-21.04-poros-packer.ovf"]
-    keep_input_artifact = true
-    provider_override   = "virtualbox"
+    output = "output/ubuntu-2104.box"
   }
 }
-

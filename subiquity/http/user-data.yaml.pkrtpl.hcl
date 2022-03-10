@@ -10,11 +10,12 @@ autoinstall:
   # using a late-command.
     #- sudo iptables -I INPUT -p tcp --dport 22 -j DROP
     - sudo systemctl stop ssh
+    - sudo systemctl disable --now ufw
   locale: en_GB
   refresh-installer:
     update: yes
   keyboard:
-    layout: gb
+    layout: GB
   #network:
   #  network:
   #    version: 2
@@ -70,8 +71,6 @@ autoinstall:
     #          Subsystem sftp /usr/lib/openssh/sftp-server
     #          UsePAM yes
     #          AllowUsers ubuntu
-  packages:
-    - qemu-guest-agent
   late-commands:
     #- sudo iptables -D INPUT -p tcp --dport 22 -j DROP
     - sudo systemctl start ssh
